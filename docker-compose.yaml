@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  java_app:
+    container_name: java_app
+    build: .
+    ports:
+      - "${FREE_LOCAL_PORT2}:8080"
+    environment:
+      - "SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/${DB_NAME}?allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true"
+      #-  spring.datasource.url="jdbc:mysql://mysqldb:${FREE_LOCAL_PORT1}/basics?allowPublicKeyRetrieval=true"
+      -  spring.jpa.hibernate.ddl-auto=update
+      #- 'DATABASE_URL=jdbc:mysql://mysql:3306/mydatabase'
+      - spring.datasource.username=root
+      - spring.datasource.password=verysecret
+    depends_on:
+      - mysql
+  mysql:
+    container_name: mysql-container
+    image: 'mysql:8.0'
+    environment:
+      - "MYSQL_DATABASE=${DB_NAME}"
+      - "MYSQL_USER=${DB_USER}"
+      - "MYSQL_PASSWORD=${DB_USER_PASSWORD}"
+      - "MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}"
+    ports:
+      - "${FREE_LOCAL_PORT1}:3306"
