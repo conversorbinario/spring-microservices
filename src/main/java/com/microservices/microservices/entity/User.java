@@ -1,12 +1,11 @@
-package com.microservices.microservices;
-
+package com.microservices.microservices.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
-@Entity // This tells Hibernate to make a table out of this class
+@Entity
 public class User {
   @Id
   @GeneratedValue(strategy=GenerationType.AUTO)
@@ -39,4 +38,4 @@ public class User {
   public void setEmail(String email) {
     this.email = email;
   }
-}
+} 
