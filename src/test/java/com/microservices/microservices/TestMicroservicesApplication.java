@@ -6,6 +6,6 @@ public class TestMicroservicesApplication {
 
 	public static void main(String[] args) {
 		 SpringApplication.from(MicroservicesApplication::main).run(args);
-	}
+		 }
 
 }

@@ -3,6 +3,7 @@ import com.microservices.microservices.services.ISBNValidator;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,14 +17,42 @@ public class TestISBN {
 
     @Test
     public void testIsValidISBN() {
-        assertTrue(isbnValidator.isValidISBN("8498653436"));
+        assertTrue(isbnValidator.isValidISBN("1544512279"));
+        assertTrue(isbnValidator.isValidISBN("0306406152"));
+        
+        assertTrue(isbnValidator.isValidISBN("9788420412146"));
+        assertTrue(isbnValidator.isValidISBN("9781544512273"));
+
+       
+
     }
 
     @Test
-    public void testIsInvalidISBN() {
-        assertFalse(isbnValidator.isValidISBN("849865343a"));
+    public void testIsISBNOfValidLengthInvalidISBN() {
         assertFalse(isbnValidator.isValidISBN("8498653437"));
+        assertFalse(isbnValidator.isValidISBN("9781544512271"));
+        assertFalse(isbnValidator.isValidISBN("9781544512274"));
+    }
+    
+    @Test
+    public void testIsNonNumericISBNNotAllowed() {
+		assertThrows(NumberFormatException.class, () -> {
+			isbnValidator.isValidISBN("123456789a");
+		});
+		assertThrows(NumberFormatException.class, () -> {
+			isbnValidator.isValidISBN("hola amigo");
+		});
 
     }
+    
+    @Test
+    public void testIsNonCompliantISBNLengthNotAllowed() {
+		assertThrows(IllegalArgumentException.class, () -> {
+			isbnValidator.isValidISBN("123456789a");
+		});
+
+    }
+    
+    
 
 }
