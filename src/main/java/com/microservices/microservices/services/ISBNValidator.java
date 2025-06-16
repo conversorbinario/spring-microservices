@@ -5,25 +5,28 @@ import org.springframework.stereotype.Service;
 @Service
 public class ISBNValidator {
 
-  public boolean isValidISBN(String isbn) {
+  public static final int SHORT_ISBN = 10;
+  public static final int LONG_ISBN = 13;
+
+public boolean isValidISBN(String isbn) {
     
     
-    if (isbn.length() != 10 && isbn.length()!=13) {
+    if (isbn.length() != 10 && isbn.length()!=ISBNValidator.LONG_ISBN) {
     	throw new IllegalArgumentException();
     }
     
-    int stringLimitToCheck = isbn.length();
+    int stringLimitToCheck = (isbn.length() == SHORT_ISBN) ? isbn.length() -1 : isbn.length();
    
-    String subtstr =  isbn.substring(0, stringLimitToCheck-1);
+    String subtstr =  isbn.substring(0, stringLimitToCheck);
     
     if (subtstr.matches(".*\\D.*")) {
     	throw new NumberFormatException();
     }
 
-    if((isbn.length() == 10 && isIsbn10ValidMod(isbn))){
+    if((isbn.length() == SHORT_ISBN && isIsbn10ValidMod(isbn))){
       return true;
     }
-    if((isbn.length() == 13 && isIsbn13ValidMod(isbn))){
+    if((isbn.length() == LONG_ISBN && isIsbn13ValidMod(isbn))){
       return true;
     }
     return false;
@@ -32,7 +35,7 @@ public class ISBNValidator {
 	private boolean isIsbn10ValidMod(String isbnString) {
 		int i, s = 0, t = 0;
 
-		for (i = 0; i < 10; i++) {
+		for (i = 0; i < SHORT_ISBN; i++) {
 			t += (i == 9 && isbnString.charAt(i) == 'X') ? 10 : Character.getNumericValue(isbnString.charAt(i));
 			s += t;
 		}

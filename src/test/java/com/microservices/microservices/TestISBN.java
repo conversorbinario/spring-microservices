@@ -1,6 +1,7 @@
 package com.microservices.microservices;
 import com.microservices.microservices.services.ISBNValidator;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -26,10 +27,17 @@ public class TestISBN {
     }
     
     @Test
-	  public void testIsValidISBNWithJustLastCharLetterX() {
-		  assertTrue(isbnValidator.isValidISBN("012000030X"));
-	 
-	  }
+    public void testIsValid10ISBNWithJustLastCharLetterX() {
+    	assertTrue(isbnValidator.isValidISBN("012000030X"));
+
+    }
+
+    @Test
+    public void testIsInvalidValid13ISBNWithJustLastCharLetterXNotAllowed() {
+    	assertThrows(NumberFormatException.class, () -> {
+			isbnValidator.isValidISBN("978154451227X");
+		});
+    }
     
     
     @Test
