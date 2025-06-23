@@ -34,6 +34,8 @@ class TestBookLocator {
 		String isbnLocator = bl.generateLocator(isbn);
 		assertEquals("15443J", isbnLocator);
 
+		
+		
 		isbn = "2344512279";
 
 		concretBookSearcher = new BookSearcherInterface() {
