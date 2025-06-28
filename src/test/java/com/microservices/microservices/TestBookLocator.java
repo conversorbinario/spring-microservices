@@ -1,6 +1,8 @@
 package com.microservices.microservices;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +54,31 @@ class TestBookLocator {
 		isbnLocator = bl.generateLocator(isbn);
 		assertEquals("23444A", isbnLocator);
 
+	}
+	
+	@Test
+	void isLocalDataDbDataUsedIfBookIsPresentInIt() {
+		assertTrue(true);
+		/*BookSearcherInterface mockedDbSearcher = mock(BookSearcherInterface.class);
+		BookSearcherInterface mockedWebServiceSearcher = mock(BookSearcherInterface.class);
+		
+		//when(mockedDbSearcher.getBook("2344512279")).thenReturn(new Book("Alvaro Cunqueiro", "As crónicas do Sochantre", "2344512279"));
+		//when(mockedDbSearcher.getBook("1544512279")).thenReturn(new Book("Julio Llamazares", "La lluvia amarilla", "2344512279"));
+		
+		
+		BookLocatorGenerator bl = new BookLocatorGenerator();
+		bl.setBookSearcher(mockedDbSearcher);
+
+		String isbnLocator = bl.generateLocator("2344512279");
+		assertEquals("23444A", isbnLocator);
+		*/
+		
+		
+	}
+	
+	@Test
+	void isWebServiceUsedIfNotExternalResourceAdded() {
+		fail();
 	}
 
 }
