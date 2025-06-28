@@ -58,12 +58,11 @@ class TestBookLocator {
 	
 	@Test
 	void isLocalDataDbDataUsedIfBookIsPresentInIt() {
-		assertTrue(true);
-		/*BookSearcherInterface mockedDbSearcher = mock(BookSearcherInterface.class);
+		BookSearcherInterface mockedDbSearcher = mock(BookSearcherInterface.class);
 		BookSearcherInterface mockedWebServiceSearcher = mock(BookSearcherInterface.class);
 		
-		//when(mockedDbSearcher.getBook("2344512279")).thenReturn(new Book("Alvaro Cunqueiro", "As crónicas do Sochantre", "2344512279"));
-		//when(mockedDbSearcher.getBook("1544512279")).thenReturn(new Book("Julio Llamazares", "La lluvia amarilla", "2344512279"));
+		when(mockedDbSearcher.getBook("2344512279")).thenReturn(new Book("Alvaro Cunqueiro", "As crónicas do Sochantre", "2344512279"));
+		when(mockedDbSearcher.getBook("1544512279")).thenReturn(new Book("Julio Llamazares", "La lluvia amarilla", "2344512279"));
 		
 		
 		BookLocatorGenerator bl = new BookLocatorGenerator();
@@ -71,7 +70,7 @@ class TestBookLocator {
 
 		String isbnLocator = bl.generateLocator("2344512279");
 		assertEquals("23444A", isbnLocator);
-		*/
+		
 		
 		
 	}
