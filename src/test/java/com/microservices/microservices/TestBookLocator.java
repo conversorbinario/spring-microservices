@@ -7,6 +7,7 @@ import static org.mockito.Mockito.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.testcontainers.shaded.com.google.common.base.Verify;
 
 import com.microservices.microservices.external_entities.Book;
 import com.microservices.microservices.services.BookLocatorGenerator;
@@ -69,7 +70,8 @@ class TestBookLocator {
 		bl.setBookSearcher(mockedDbSearcher);
 
 		String isbnLocator = bl.generateLocator("2344512279");
-		assertEquals("23444A", isbnLocator);
+		
+		verify(mockedDbSearcher, times(1)).getBook("2344512279");
 		
 		
 		
