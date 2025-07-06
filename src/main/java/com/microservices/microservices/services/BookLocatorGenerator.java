@@ -29,6 +29,7 @@ public class BookLocatorGenerator {
 
 	public String generateLocator(String isbn) {
 		Book book = bookSearcher.getBook(isbn);
+		
 
 		StringBuilder stringBuilder = new StringBuilder(100);
 		stringBuilder.append(isbn.substring(0, 4));

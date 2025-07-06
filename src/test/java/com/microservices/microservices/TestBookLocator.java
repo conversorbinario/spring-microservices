@@ -3,6 +3,8 @@ package com.microservices.microservices;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+import java.util.LinkedList;
+import java.util.Queue;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,25 +63,70 @@ class TestBookLocator {
 	void isLocalDataDbDataUsedIfBookIsPresentInIt() {
 		BookSearcherInterface mockedDbSearcher = mock(BookSearcherInterface.class);
 		BookSearcherInterface mockedWebServiceSearcher = mock(BookSearcherInterface.class);
+		
+		Queue<BookSearcherInterface> bSearchers = new LinkedList<>();
+		
+		bSearchers.add(mockedDbSearcher);
+		bSearchers.add(mockedWebServiceSearcher);
+		
+		
 		String isbnOfDbBook = "2344512279";
 		when(mockedDbSearcher.getBook(isbnOfDbBook)).thenReturn(new Book("Alvaro Cunqueiro", "As crónicas do Sochantre", "2344512279"));
-		when(mockedDbSearcher.getBook("1544512279")).thenReturn(new Book("Julio Llamazares", "La lluvia amarilla", "2344512279"));
-		
-		
-		BookLocatorGenerator bl = new BookLocatorGenerator();
-		bl.setBookSearcher(mockedDbSearcher);
+		when(mockedWebServiceSearcher.getBook(isbnOfDbBook)).thenReturn(new Book("Alvaro Cunqueiro", "As crónicas do Sochantre", "2344512279"));
 
-		String isbnLocator = bl.generateLocator(isbnOfDbBook);
+		BookLocatorGenerator bl = new BookLocatorGenerator();
+
+		//Cola!
+		while (!bSearchers.isEmpty()) {
+		    BookSearcherInterface bSearcher = bSearchers.poll(); 
+			bl.setBookSearcher(bSearcher);
+			
+		    Book book = bSearcher.getBook(isbnOfDbBook);
+		    if (book != null) {
+		        break;
+		    }
+		}
 		
+			
 		verify(mockedDbSearcher, times(1)).getBook(isbnOfDbBook);
+		verify(mockedWebServiceSearcher, times(0)).getBook(isbnOfDbBook);
 		
 		
 		
 	}
 	
 	@Test
-	void isWebServiceUsedIfNotExternalResourceAdded() {
-		fail();
+	void isWebServiceUsedIfBookPresentInIt() {
+		BookSearcherInterface mockedDbSearcher = mock(BookSearcherInterface.class);
+		BookSearcherInterface mockedWebServiceSearcher = mock(BookSearcherInterface.class);
+		
+		Queue<BookSearcherInterface> bSearchers = new LinkedList<>();
+		
+		bSearchers.add(mockedWebServiceSearcher);
+		bSearchers.add(mockedDbSearcher);
+
+		
+		String isbnOfDbBook = "2344512279";
+		when(mockedDbSearcher.getBook(isbnOfDbBook)).thenReturn(new Book("Alvaro Cunqueiro", "As crónicas do Sochantre", "2344512279"));
+		when(mockedWebServiceSearcher.getBook(isbnOfDbBook)).thenReturn(new Book("Alvaro Cunqueiro", "As crónicas do Sochantre", "2344512279"));
+
+		BookLocatorGenerator bl = new BookLocatorGenerator();
+
+		//Cola!
+		while (!bSearchers.isEmpty()) {
+		    BookSearcherInterface bSearcher = bSearchers.poll(); 
+			bl.setBookSearcher(bSearcher);
+			
+		    Book book = bSearcher.getBook(isbnOfDbBook);
+		    if (book != null) {
+		        break;
+		    }
+		}
+		
+			
+		verify(mockedDbSearcher, times(0)).getBook(isbnOfDbBook);
+		verify(mockedWebServiceSearcher, times(1)).getBook(isbnOfDbBook);
+		
 	}
 
 }
