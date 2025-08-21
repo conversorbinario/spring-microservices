@@ -9,7 +9,7 @@ import java.util.Queue;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.testcontainers.shaded.com.google.common.base.Verify;
+//import org.testcontainers.shaded.com.google.common.base.Verify;
 
 import com.microservices.microservices.external_entities.Book;
 import com.microservices.microservices.services.BookLocatorGenerator;
@@ -22,7 +22,7 @@ class TestBookLocator {
 	BookLocatorGenerator bookLocatorGenerator;
 
 	@Test
-	void isValidCode() {
+	void isCalculatedCodeFromBookValid() {
 		
 		String isbn = "1544512279";
 
